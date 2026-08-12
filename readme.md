@@ -1,4 +1,4 @@
-![cover](assets/cover.png)<img width="300" height="300"/>
+![cover](assets/cover.jpg)<img width="300" height="300"/>
 
 # установка системы
 
