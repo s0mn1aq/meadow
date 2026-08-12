@@ -1,4 +1,7 @@
-![cover](assets/cover.jpg)<img width="300" height="300"/>
+![Cover](cover.jpg)
+<p align="center">
+<img src="cover.jpg" alt="Cover" width="100%">
+</p>
 
 # установка системы
 
