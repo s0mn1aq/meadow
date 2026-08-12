@@ -1,4 +1,3 @@
-![Cover](cover.jpg)
 <p align="center">
 <img src="cover.jpg" alt="Cover" width="100%">
 </p>
