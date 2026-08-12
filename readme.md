@@ -1,4 +1,4 @@
-<img width="300" height="300" alt="cover" src="https://github.com/user-attachments/assets/60d3e039-6711-49a9-9661-6e1dc1a80991"/>
+![cover](assets/cover.png)<img width="300" height="300"/>
 
 # установка системы
 
