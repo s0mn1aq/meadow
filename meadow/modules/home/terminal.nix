@@ -2,15 +2,18 @@
 
 let
   theme = {
-    bg         = "080a09";
-    bg_surface = "121714";
-    border     = "212b25";
-    fg         = "d8d3c5";
-    fg_dim     = "68756c";
-    green      = "4a6745";
-    pink       = "b84a62";
-    crimson    = "7a2231";
-    yellow     = "92873d";
+    base00 = "0e120f";
+    base01 = "151c16";
+    base02 = "212b23";
+    base03 = "4d5c4e";
+    base04 = "7b8e7c";
+    base05 = "dcd7c6";
+
+    accent = "c85a6e";
+    sage   = "7da37b";
+    yellow = "b1b87d";
+    cyan   = "5d8e80";
+    blue   = "60838d";
   };
 in
 {
@@ -23,25 +26,27 @@ in
         pad = "12x12";
       };
       colors = {
-        alpha = 0.80;
-        background = theme.bg;
-        foreground = theme.fg;
-        regular0 = theme.bg_surface;
-        regular1 = theme.crimson;
-        regular2 = theme.green;
+        alpha = 1.0;
+        background = theme.base00;
+        foreground = theme.base05;
+
+        regular0 = theme.base01;
+        regular1 = theme.accent;
+        regular2 = theme.sage;
         regular3 = theme.yellow;
-        regular4 = theme.pink;
-        regular5 = theme.pink;
-        regular6 = theme.fg_dim;
-        regular7 = theme.fg;
-        bright0  = theme.border;
-        bright1  = theme.crimson;
-        bright2  = theme.green;
+        regular4 = theme.blue;
+        regular5 = theme.accent;
+        regular6 = theme.cyan;
+        regular7 = theme.base05;
+
+        bright0  = theme.base02;
+        bright1  = theme.accent;
+        bright2  = theme.sage;
         bright3  = theme.yellow;
-        bright4  = theme.pink;
-        bright5  = theme.pink;
-        bright6  = theme.fg_dim;
-        bright7  = theme.fg;
+        bright4  = theme.blue;
+        bright5  = theme.accent;
+        bright6  = theme.cyan;
+        bright7  = theme.base05;
       };
     };
   };
@@ -66,14 +71,14 @@ in
       add_newline = false;
       format = "$directory$git_branch$character";
       directory = {
-        style = "bold #${theme.green}";
+        style = "bold #${theme.sage}";
       };
       git_branch = {
-        style = "bold #${theme.pink}";
+        style = "bold #${theme.accent}";
       };
       character = {
-        success_symbol = "[❯](bold #${theme.pink})";
-        error_symbol = "[❯](bold #${theme.crimson})";
+        success_symbol = "[❯](bold #${theme.accent})";
+        error_symbol = "[❯](bold #${theme.accent})";
       };
     };
   };
