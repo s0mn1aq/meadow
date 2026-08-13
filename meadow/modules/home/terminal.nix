@@ -2,15 +2,15 @@
 
 let
   theme = {
-    bg         = "0b0e0d";
-    bg_surface = "171e19";
-    border     = "2c3b2e";
-    fg         = "dad4c7";
-    fg_dim     = "7f8a7c";
-    green      = "6b8b60";
-    pink       = "c45c75";
-    crimson    = "872b3e";
-    yellow     = "a09e48";
+    bg         = "080a09";
+    bg_surface = "121714";
+    border     = "212b25";
+    fg         = "d8d3c5";
+    fg_dim     = "68756c";
+    green      = "4a6745";
+    pink       = "b84a62";
+    crimson    = "7a2231";
+    yellow     = "92873d";
   };
 in
 {
@@ -19,11 +19,11 @@ in
     settings = {
       main = {
         term = "xterm-256color";
-        font = "JetBrains Mono:size=11";
+        font = "IBM Plex Mono:size=11";
         pad = "12x12";
       };
       colors = {
-        alpha = 0.75;
+        alpha = 0.80;
         background = theme.bg;
         foreground = theme.fg;
         regular0 = theme.bg_surface;
