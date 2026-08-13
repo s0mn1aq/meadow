@@ -11,14 +11,14 @@ echo ""
 
 lsblk -d -n -o NAME,SIZE,MODEL | grep -v "loop"
 echo ""
-read -rp "диск (например /dev/sda или /dev/nvme0n1): " DISK
+read -rp "диск (например /dev/sda или /dev/nvme0n1): " DISK </dev/tty
 
 if [ ! -b "$DISK" ]; then
   echo "ошибка: диск не найден"
   exit 1
 fi
 
-read -rp "уничтожение данных на $DISK. продолжить? (y/n): " CONFIRM
+read -rp "уничтожение данных на $DISK. продолжить? (y/n): " CONFIRM </dev/tty
 if [[ "$CONFIRM" != [yY] ]]; then
   echo "отмена"
   exit 0
@@ -64,7 +64,7 @@ echo "установка системы..."
 nixos-install --flake /mnt/etc/nixos#meadow
 
 echo "готово"
-read -rp "перезагрузка? (y/n): " REBOOT
+read -rp "перезагрузка? (y/n): " REBOOT </dev/tty
 if [[ "$REBOOT" == [yY] ]]; then
   reboot
 fi
