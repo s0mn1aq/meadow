@@ -62,7 +62,7 @@ TMP_DIR=$(mktemp -d)
 git clone https://github.com/s0mn1aq/meadow.git "$TMP_DIR"
 
 mkdir -p /mnt/etc/nixos
-cp -r "$TMP_DIR/." /mnt/etc/nixos/
+cp -r "$TMP_DIR/meadow/." /mnt/etc/nixos/
 rm -rf "$TMP_DIR"
 
 echo "configuring"
