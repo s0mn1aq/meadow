@@ -266,7 +266,6 @@ in
 
     libsForQt5.qtstyleplugin-kvantum
     qt6Packages.qtstyleplugin-kvantum
-    kdePackages.kvantum
 
     swaybg
     swaylock
