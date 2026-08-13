@@ -2,19 +2,36 @@
 
 let
   theme = {
-    bg         = "#080a09";
-    bg_surface = "#121714";
-    border     = "#212b25";
-    fg         = "#d8d3c5";
-    fg_dim     = "#68756c";
-    
-    green      = "#4a6745";
-    pink       = "#b84a62";
-    crimson    = "#7a2231";
-    yellow     = "#92873d";
+    base00 = "0e120f";
+    base01 = "151c16";
+    base02 = "212b23";
+    base04 = "7b8e7c";
+    base05 = "dcd7c6";
+
+    accent = "c85a6e";
+    load   = "7da37b";
+    temp   = "b1b87d";
   };
 in
 {
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.phinger-cursors;
+    name = "phinger-cursors-dark";
+    size = 24;
+  };
+
+  gtk = {
+    enable = true;
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+  };
+
+  dconf.settings."org/gnome/desktop/interface" = {
+    color-scheme = "prefer-dark";
+  };
+
   fonts.fontconfig = {
     enable = true;
     defaultFonts = {
@@ -25,13 +42,17 @@ in
   };
 
   xdg.dataFile."themes/meadow/openbox-3/themerc".text = ''
-    window.active.border.color: ${theme.pink}
-    window.inactive.border.color: ${theme.border}
-    window.active.title.bg: ${theme.bg_surface}
-    window.inactive.title.bg: ${theme.bg}
-    window.active.label.text.color: ${theme.fg}
-    window.inactive.label.text.color: ${theme.fg_dim}
+    window.active.border.color: #${theme.accent}
+    window.inactive.border.color: #${theme.base02}
+    window.active.title.bg: #${theme.base01}
+    window.inactive.title.bg: #${theme.base00}
+    window.active.label.text.color: #${theme.base05}
+    window.inactive.label.text.color: #${theme.base04}
     border.width: 2
+  '';
+
+  xdg.configFile."labwc/autostart".text = ''
+    swaybg -i ~/picture/cover.jpg -m fill &
   '';
 
   wayland.windowManager.labwc = {
@@ -54,9 +75,16 @@ in
       margin-left = 8;
       margin-right = 8;
 
-      modules-left = [ "custom/menu" "pulseaudio" ];
-      modules-center = [ "clock#time" "wlr/workspaces" "clock#date" ];
-      modules-right = [ "cpu" "temperature#cpu" "custom/gpu-util" "custom/gpu-temp" "disk" ];
+      modules-left = [ "custom/menu" "pulseaudio" "backlight" ];
+      modules-center = [ "clock#time" "custom/wallpaper" "clock#date" ];
+      modules-right = [
+        "cpu"
+        "temperature#cpu"
+        "custom/gpu-util"
+        "custom/gpu-temp"
+        "memory"
+        "disk"
+      ];
 
       "custom/menu" = {
         format = "󰍜";
@@ -74,15 +102,21 @@ in
         tooltip = false;
       };
 
+      "backlight" = {
+        format = "{icon} {percent}%";
+        format-icons = [ "󰃞" "󰃟" "󰃠" ];
+        tooltip = false;
+      };
+
       "clock#time" = {
         format = "󰥔 {:%H:%M}";
         tooltip = false;
       };
 
-      "wlr/workspaces" = {
-        format = "{name}";
-        active-only = false;
-        on-click = "activate";
+      "custom/wallpaper" = {
+        format = "󰸉";
+        on-click = "sh -c 'img=$(ls ~/picture | ${pkgs.fuzzel}/bin/fuzzel -d -p \"Wallpaper: \"); [ -n \"$img\" ] && pkill swaybg; ${pkgs.swaybg}/bin/swaybg -i ~/picture/\"$img\" -m fill &'";
+        tooltip = false;
       };
 
       "clock#date" = {
@@ -91,7 +125,7 @@ in
       };
 
       "cpu" = {
-        format = " {usage}%";
+        format = "󰻠 {usage}%";
         interval = 2;
       };
 
@@ -102,14 +136,20 @@ in
 
       "custom/gpu-util" = {
         exec = "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null || echo '0'";
-        format = "󰢮 {}%";
+        format = "󰾲 {}%";
         interval = 2;
       };
 
       "custom/gpu-temp" = {
         exec = "nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null || echo '0'";
-        format = " {}°C";
+        format = " {}°C";
         interval = 2;
+      };
+
+      "memory" = {
+        format = "󰘚 {percentage}%";
+        interval = 2;
+        tooltip = false;
       };
 
       "disk" = {
@@ -121,10 +161,10 @@ in
 
     style = ''
       * {
-        font-family: "IBM Plex Mono", "IBM Plex Sans", monospace;
+        font-family: "IBM Plex Mono", monospace;
         font-size: 12px;
         font-weight: 500;
-        color: ${theme.fg};
+        color: #${theme.base05};
       }
 
       window#waybar {
@@ -133,75 +173,82 @@ in
 
       #custom-menu,
       #pulseaudio,
-      #clock.time,
-      #workspaces,
-      #clock.date,
+      #backlight,
+      #clock-time,
+      #custom-wallpaper,
+      #clock-date,
       #cpu,
       #temperature,
       #custom-gpu-util,
       #custom-gpu-temp,
+      #memory,
       #disk {
-        background-color: rgba(18, 23, 20, 0.85);
-        border: 1px solid ${theme.border};
+        background-color: #${theme.base01};
+        border: 1px solid #${theme.base02};
         border-radius: 6px;
         padding: 2px 10px;
         margin: 0 3px;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
       }
 
       #custom-menu {
-        color: ${theme.pink};
+        color: #${theme.accent};
         font-size: 14px;
         padding: 2px 12px;
       }
 
+      #custom-menu:hover {
+        background-color: #${theme.base02};
+        border-color: #${theme.accent};
+      }
+
       #pulseaudio {
-        color: ${theme.green};
+        color: #${theme.load};
       }
 
-      #clock.time {
-        color: ${theme.fg};
+      #pulseaudio:hover {
+        background-color: #${theme.base02};
+        border-color: #${theme.load};
       }
 
-      #workspaces {
-        padding: 0 4px;
+      #backlight {
+        color: #${theme.temp};
       }
 
-      #workspaces button {
-        padding: 0 6px;
-        margin: 2px 2px;
-        border-radius: 4px;
-        color: ${theme.fg_dim};
-        background: transparent;
+      #backlight:hover {
+        background-color: #${theme.base02};
+        border-color: #${theme.temp};
       }
 
-      #workspaces button.active,
-      #workspaces button.focused {
-        color: ${theme.pink};
-        background-color: rgba(33, 43, 37, 0.8);
+      #clock-time {
+        color: #${theme.base05};
       }
 
-      #clock.date {
-        color: ${theme.fg_dim};
+      #custom-wallpaper {
+        color: #${theme.accent};
+        font-size: 14px;
+        padding: 2px 10px;
       }
 
-      #cpu {
-        color: ${theme.green};
+      #custom-wallpaper:hover {
+        background-color: #${theme.base02};
+        border-color: #${theme.accent};
       }
 
-      #temperature {
-        color: ${theme.yellow};
+      #clock-date {
+        color: #${theme.base04};
       }
 
-      #custom-gpu-util {
-        color: ${theme.green};
-      }
-
-      #custom-gpu-temp {
-        color: ${theme.yellow};
-      }
-
+      #cpu,
+      #custom-gpu-util,
+      #memory,
       #disk {
-        color: ${theme.fg_dim};
+        color: #${theme.load};
+      }
+
+      #temperature,
+      #custom-gpu-temp {
+        color: #${theme.temp};
       }
     '';
   };
@@ -216,12 +263,12 @@ in
         corner-radius = 6;
       };
       colors = {
-        background = "080a0ge6";
-        text = "d8d3c5ff";
-        match = "b84a62ff";
-        selection = "121714ff";
-        selection-text = "b84a62ff";
-        border = "212b25ff";
+        background = "${theme.base00}ff";
+        text = "${theme.base05}ff";
+        match = "${theme.accent}ff";
+        selection = "${theme.base01}ff";
+        selection-text = "${theme.accent}ff";
+        border = "${theme.base02}ff";
       };
     };
   };
@@ -229,9 +276,9 @@ in
   services.mako = {
     enable = true;
     font = "IBM Plex Mono 10";
-    backgroundColor = "${theme.bg}e6";
-    textColor = theme.fg;
-    borderColor = theme.pink;
+    backgroundColor = "#${theme.base00}";
+    textColor = "#${theme.base05}";
+    borderColor = "#${theme.accent}";
     borderSize = 1;
     borderRadius = 6;
     defaultTimeout = 5000;
@@ -239,33 +286,16 @@ in
 
   qt = {
     enable = true;
-    platformTheme.name = "kvantum";
-    style.name = "kvantum";
+    platformTheme.name = "gtk";
+    style.name = "adwaita-dark";
   };
-
-  xdg.configFile."Kvantum/kvantum.kvconfig".text = ''
-    [General]
-    theme=Default
-
-    [Hacks]
-    translucency=true
-    blur_behind=true
-    transparent_menubars=true
-    transparent_toolbars=true
-
-    [Composite]
-    translucent_windows=true
-
-    [Size]
-    round_corners=6
-  '';
 
   home.packages = with pkgs; [
     ibm-plex
     nerd-fonts.symbols-only
-
-    libsForQt5.qtstyleplugin-kvantum
-    qt6Packages.qtstyleplugin-kvantum
+    phinger-cursors
+    adwaita-qt
+    brightnessctl
 
     swaybg
     swaylock
