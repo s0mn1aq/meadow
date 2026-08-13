@@ -24,17 +24,24 @@ in
     };
   };
 
+  xdg.dataFile."themes/meadow/openbox-3/themerc".text = ''
+    window.active.border.color: ${theme.pink}
+    window.inactive.border.color: ${theme.border}
+    window.active.title.bg: ${theme.bg_surface}
+    window.inactive.title.bg: ${theme.bg}
+    window.active.label.text.color: ${theme.fg}
+    window.inactive.label.text.color: ${theme.fg_dim}
+    border.width: 2
+  '';
+
   wayland.windowManager.labwc = {
     enable = true;
-    settings = {
-      theme = {
-        name = "Kvantum";
-        "border.active.color" = theme.pink;
-        "border.inactive.color" = theme.border;
-        "border.width" = 2;
-        "window.cornerRadius" = 6;
-      };
-    };
+    extraConfig = ''
+      <theme>
+        <name>meadow</name>
+        <cornerRadius>6</cornerRadius>
+      </theme>
+    '';
   };
 
   programs.waybar = {
