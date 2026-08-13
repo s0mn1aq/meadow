@@ -6,7 +6,7 @@
     strawberry
     lxqt.pavucontrol-qt
     haruna
-    okular
+    kdePackages.okular
     nomacs
   ];
 }
