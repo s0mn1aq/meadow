@@ -9,7 +9,6 @@ fi
 echo "установка meadow"
 echo ""
 
-# выбор диска
 lsblk -d -n -o NAME,SIZE,MODEL | grep -v "loop"
 echo ""
 read -rp "диск (например /dev/sda или /dev/nvme0n1): " DISK
@@ -25,7 +24,6 @@ if [[ "$CONFIRM" != [yY] ]]; then
   exit 0
 fi
 
-# разметка
 echo "разметка..."
 parted --script "$DISK" mklabel gpt
 parted --script "$DISK" mkpart ESP fat32 1MiB 1024MiB
@@ -40,7 +38,6 @@ else
   ROOT_PART="${DISK}2"
 fi
 
-# форматирование и монтирование
 echo "форматирование..."
 mkfs.fat -F32 -n boot "$BOOT_PART"
 mkfs.ext4 -F -L nixos "$ROOT_PART"
@@ -50,7 +47,6 @@ mount /dev/disk/by-label/nixos /mnt
 mkdir -p /mnt/boot
 mount /dev/disk/by-label/boot /mnt/boot
 
-# загрузка конфигов
 echo "загрузка репозитория..."
 TMP_DIR=$(mktemp -d)
 git clone https://github.com/s0mn1aq/meadow.git "$TMP_DIR"
@@ -59,13 +55,11 @@ mkdir -p /mnt/etc/nixos
 cp -r "$TMP_DIR/meadow/"* /mnt/etc/nixos/
 rm -rf "$TMP_DIR"
 
-# генерация конфига и чистка
 echo "генерация конфига..."
 nixos-generate-config --root /mnt
-mv /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/meadow/hardware-configuration.nix
+mv /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/meadow/
 rm -f /mnt/etc/nixos/configuration.nix
 
-# установка
 echo "установка системы..."
 nixos-install --flake /mnt/etc/nixos#meadow
 
