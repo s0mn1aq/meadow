@@ -2,7 +2,7 @@
 
 {
   home.packages = with pkgs; [
-    falkon
+    kdePackages.falkon
     strawberry
     lxqt.pavucontrol-qt
     haruna
