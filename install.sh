@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-echo "meadow"
+echo "meadow (alternative branch)"
 echo ""
 
 lsblk -d -n -o NAME,SIZE,MODEL | grep -v "loop"
@@ -57,18 +57,18 @@ mount "$ROOT_PART" /mnt
 mkdir -p /mnt/boot
 mount "$BOOT_PART" /mnt/boot
 
-echo "cloning"
+echo "cloning alternative branch"
 TMP_DIR=$(mktemp -d)
-git clone https://github.com/s0mn1aq/meadow.git "$TMP_DIR"
+git clone -b alternative --single-branch https://github.com/s0mn1aq/meadow.git "$TMP_DIR"
 
 mkdir -p /mnt/etc/nixos
-cp -r "$TMP_DIR/meadow/." /mnt/etc/nixos/
+cp -r "$TMP_DIR/." /mnt/etc/nixos/
 rm -rf "$TMP_DIR"
 
 echo "configuring"
 nixos-generate-config --root /mnt
 mkdir -p /mnt/etc/nixos/hosts/meadow
-mv /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/meadow/
+mv -f /mnt/etc/nixos/hardware-configuration.nix /mnt/etc/nixos/hosts/meadow/
 rm -f /mnt/etc/nixos/configuration.nix
 
 echo "installing"
