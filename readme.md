@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="cover.png" width="50%">
+  <img src="cover.png" width="10%">
 </p>
 
 ```bash
