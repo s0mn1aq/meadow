@@ -70,7 +70,7 @@ in
         format-icons = {
           default = [ "󰕿" "󰖀" "󰕾" ];
         };
-        on-click = "${pkgs.pavucontrol-qt}/bin/pavucontrol-qt";
+        on-click = "${pkgs.lxqt.pavucontrol-qt}/bin/pavucontrol-qt";
         tooltip = false;
       };
 
