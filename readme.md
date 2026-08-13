@@ -3,4 +3,4 @@
 </p>
 
 ```bash
-curl -sSL [https://raw.githubusercontent.com/s0mn1aq/meadow/main/install.sh](https://raw.githubusercontent.com/s0mn1aq/meadow/main/install.sh) | sudo bash
+curl -sSL https://raw.githubusercontent.com/s0mn1aq/meadow/default/install.sh | sudo bash
