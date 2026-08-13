@@ -43,9 +43,9 @@ mkfs.fat -F32 -n boot "$BOOT_PART"
 mkfs.ext4 -F -L nixos "$ROOT_PART"
 
 echo "монтирование..."
-mount /dev/disk/by-label/nixos /mnt
+mount "$ROOT_PART" /mnt
 mkdir -p /mnt/boot
-mount /dev/disk/by-label/boot /mnt/boot
+mount "$BOOT_PART" /mnt/boot
 
 echo "загрузка репозитория..."
 TMP_DIR=$(mktemp -d)
