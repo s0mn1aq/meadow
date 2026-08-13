@@ -226,7 +226,7 @@ in
     textColor = theme.fg;
     borderColor = theme.pink;
     borderSize = 1;
-    cornerRadius = 6;
+    borderRadius = 6;
     defaultTimeout = 5000;
   };
 
