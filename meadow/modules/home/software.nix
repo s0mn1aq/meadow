@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     falkon
     strawberry
-    pavucontrol-qt
+    lxqt.pavucontrol-qt
     haruna
     okular
     nomacs
